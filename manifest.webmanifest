@@ -1,0 +1,10 @@
+{
+  "name": "ATLAS Tape Layout",
+  "short_name": "ATLAS Tape",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101827",
+  "theme_color": "#101827",
+  "orientation": "any"
+}
