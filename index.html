@@ -5,7 +5,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="ATLAS Tape">
 <link rel="manifest" href="./manifest.webmanifest">
-<title>ATLAS Tape Layout — V29 — Direct PDF Import</title>
+<title>ATLAS Tape Layout — V30 — PDF Text Layer</title>
 <style>
 :root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#eaf1fb;background:#101827}
 *{box-sizing:border-box}body{margin:0}header{padding:18px 22px;background:#17243a;border-bottom:1px solid #344761}h1{margin:0;font-size:23px}small,.hint{color:#a9bed5}main{display:grid;grid-template-columns:320px minmax(0,1fr);gap:16px;padding:16px}.panel{background:#19283c;border:1px solid #354861;border-radius:12px;padding:16px}h2{font-size:16px;margin:0 0 12px}h3{font-size:14px;margin:18px 0 8px;color:#c3d9f2}.row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}label{display:block;font-size:12px;color:#b9cde4}input,select,button{width:100%;border:1px solid #506782;border-radius:7px;background:#101d2e;color:white;padding:10px;font:inherit}input[type=file]{font-size:12px}button{background:#2a5b86;cursor:pointer}button:hover{background:#3677aa}button.active{background:#16866f;border-color:#72f0cf;box-shadow:0 0 0 2px rgba(114,240,207,.22) inset}button.active::after{content:"  • TAP";font-weight:800}button.selected{background:#176b63;border-color:#72f0cf;box-shadow:0 0 0 2px rgba(114,240,207,.16) inset}button.selected::after{content:"  ✓ SELECTED";font-weight:800}button.secondary{background:#293b50}.wide{grid-column:1/-1}.viewerHead{display:flex;align-items:center;justify-content:space-between;gap:10px}.viewerHead h2{margin:0}.viewerHead button{width:auto;min-width:116px;padding:8px 12px}#viewPanel:fullscreen{background:#101827;border:0;border-radius:0;padding:14px;width:100vw;height:100vh}#viewPanel:fullscreen canvas{height:calc(100vh - 180px);min-height:0}.fullscreen-fallback{position:fixed!important;inset:0!important;z-index:9999!important;width:100vw!important;height:100vh!important;height:100dvh!important;margin:0!important;border-radius:0!important;border:0!important;background:#101827!important;padding:calc(8px + env(safe-area-inset-top)) calc(8px + env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) calc(8px + env(safe-area-inset-left))!important;overflow:hidden!important;overscroll-behavior:none!important}.fullscreen-fallback canvas{height:calc(100vh - 180px)!important;min-height:320px!important}canvas{width:100%;height:min(69vh,780px);min-height:430px;display:block;background:#0c1522;border-radius:8px;touch-action:none}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.stat{background:#102033;border-radius:8px;padding:12px;font-size:13px;overflow-wrap:anywhere}.stat b{display:block;color:#8ee5ef;margin-top:5px;font-size:16px}.status{margin-top:10px;color:#e7c98c;font-size:13px;min-height:35px}.pill{display:inline-block;border-radius:5px;padding:4px 8px;background:#304761;margin:4px 3px 4px 0;font-size:12px}.note{font-size:12px;line-height:1.5;color:#b4c8dc}@media(max-width:850px){main{grid-template-columns:1fr}.stats{grid-template-columns:1fr}canvas{height:55vh;min-height:350px}}
@@ -56,7 +56,7 @@ main{display:block;padding:8px;height:calc(100vh - 50px);height:calc(100dvh - 50
 @media(max-width:430px){#viewPanel .stats{grid-template-columns:1fr 1fr 1fr}.viewerHead h2{font-size:13px}.pill{font-size:10px;padding:3px 5px}}
 
 </style></head>
-<body><header><h1>ATLAS <span style="color:#67d9e6">TAPE LAYOUT</span> <small> / V29 — direct PDF import</small></h1><small>DXF + vector PDF • Two tape stations • Trilateration distances • No laser hardware required</small></header>
+<body><header><h1>ATLAS <span style="color:#67d9e6">TAPE LAYOUT</span> <small> / V30 — PDF text layer</small></h1><small>DXF + vector PDF • Two tape stations • Trilateration distances • No laser hardware required</small></header>
 <main><section class="panel" id="viewPanel"><div class="viewerHead"><h2>Virtual jobsite <span id="mode" class="pill">Select target</span></h2><div class="viewerActions"><button id="optionsBtn" class="secondary">☰ Options</button><button id="themeBtn" class="secondary" title="Invert drawing background and DXF line color">◐ Invert</button><button id="fullscreenBtn" class="secondary">⛶ Full Screen</button></div></div>
 <details id="optionsMenu" class="optionsMenu">
   <summary>☰ Options</summary>
@@ -68,7 +68,8 @@ main{display:block;padding:8px;height:calc(100vh - 50px);height:calc(100dvh - 50
 <div id="pdfImportInfo" class="note" style="display:none"></div>
 <div id="saveState" class="note">Project recovery: checking local storage…</div>
 <div class="row"><div><label>Drawing units (DXF only)</label><select id="units"><option value="1">Feet</option><option value=".08333333333333333">Inches</option><option value="3.280839895">Meters</option><option value=".003280839895">Millimeters</option></select></div><div><label>Snap radius (ft)</label><input id="snap" type="number" min="0" step=".1" value=".5"></div></div>
-<p class="note"><b>DXF:</b> select its model units. <b>PDF:</b> ATLAS extracts vector paths from the selected sheet, then CAL 1 / CAL 2 establishes the real field scale. Text and raster images are ignored in this first PDF test.</p>
+<div class="row"><label style="display:flex;align-items:center;gap:8px"><input id="showPdfText" type="checkbox" checked style="width:auto"> Show PDF text / dimensions</label><div></div></div>
+<p class="note"><b>DXF:</b> select its model units. <b>PDF:</b> ATLAS extracts vector paths and readable text from the selected sheet, then CAL 1 / CAL 2 establishes the real field scale. PDF text is display-only and does not become snap geometry. Raster images are still ignored.</p>
 <h3>1A. Independent layout points</h3>
 <p class="note">X1 through X5 are field layout targets. They stay editable even while the drawing scale is locked. Select an X and ATLAS shows the two tape distances from Station A and Station B to that same coordinate. <b>SHIFT:</b> while placing X2–X5, hold Shift to force the new point horizontal or vertical (orthogonal) to the previous X.</p>
 <div class="row"><button id="virtualShift" class="secondary wide">⇧ SHIFT ORTHO — OFF</button></div>
@@ -211,6 +212,7 @@ let drawQueued=false,visibleSegmentScratch=[],visiblePointScratch=[];
 function requestDraw(){if(drawQueued)return;drawQueued=true;requestAnimationFrame(()=>{drawQueued=false;draw()})}
 let currentDXFText=null,currentDXFName="",activeProjectName="",projectKind="blank",restoring=false,saveTimer=null;
 let currentPDFDoc=null,currentPDFPage=0,currentPDFPages=0,currentPDFFileName="";
+let pdfTextItems=[],pdfTextVisible=true;
 const PDFJS_VERSION="6.4.299";
 let pdfjsLibPromise=null;
 let drawingScaleFactor=1,scaleP1=null,scaleP2=null,layoutP1=null,layoutP2=null,layoutP3=null,layoutP4=null,layoutP5=null,scaleVerified=false,scaleLocked=false,aimedX=0;
@@ -288,7 +290,8 @@ function cubicPoint(t,p0,p1,p2,p3){let u=1-t,uu=u*u,tt=t*t;return{x:uu*u*p0.x+3*
 function quadPoint(t,p0,p1,p2){let u=1-t;return{x:u*u*p0.x+2*u*t*p1.x+t*t*p2.x,y:u*u*p0.y+2*u*t*p1.y+t*t*p2.y}}
 function pushPdfSegment(out,a,b,max){if(out.length>=max)return false;if(!a||!b)return true;if(!Number.isFinite(a.x+a.y+b.x+b.y))return true;if(Math.hypot(b.x-a.x,b.y-a.y)<1e-7)return true;out.push({a,b});return true}
 async function extractPdfPage(pdfDoc,pageNumber){
-  const lib=await getPdfJs(),page=await pdfDoc.getPage(pageNumber),opList=await page.getOperatorList();
+  const lib=await getPdfJs(),page=await pdfDoc.getPage(pageNumber);
+  const [opList,textContent]=await Promise.all([page.getOperatorList(),page.getTextContent({includeMarkedContent:false,disableNormalization:false})]);
   const O=lib.OPS,MAX=180000,out=[],stack=[];let ctm=[1,0,0,1,0,0],pathOps=0,images=0,truncated=false;
   const painted=new Set([O.stroke,O.closeStroke,O.fill,O.eoFill,O.fillStroke,O.eoFillStroke,O.closeFillStroke,O.closeEOFillStroke]);
   outer: for(let i=0;i<opList.fnArray.length;i++){
@@ -316,7 +319,20 @@ async function extractPdfPage(pdfDoc,pageNumber){
       else break;
     }
   }
-  return{seg:out,pts:[],pathOps,images,truncated,width:page.view?.[2]-page.view?.[0],height:page.view?.[3]-page.view?.[1]}
+  const text=[];
+  const MAX_TEXT=30000;
+  for(const item of (textContent?.items||[])){
+    if(text.length>=MAX_TEXT)break;
+    if(!item||typeof item.str!=="string"||!item.str.trim()||!item.transform||item.transform.length<6)continue;
+    const m=item.transform.map(Number);
+    if(!m.every(Number.isFinite))continue;
+    const size=Math.max(Math.hypot(m[0],m[1]),Math.hypot(m[2],m[3]),0.01);
+    const angle=Math.atan2(m[1],m[0]);
+    const x=m[4],y=m[5],width=Number(item.width)||0,height=Number(item.height)||size;
+    if(!Number.isFinite(x+y+size+angle+width+height))continue;
+    text.push({str:item.str,x,y,size,angle,width,height});
+  }
+  return{seg:out,pts:[],text,pathOps,images,truncated,textTruncated:(textContent?.items?.length||0)>text.length,width:page.view?.[2]-page.view?.[0],height:page.view?.[3]-page.view?.[1]}
 }
 function showPdfPageControls(show){$("pdfPageControls").style.display=show?"grid":"none";$("pdfImportInfo").style.display=show?"block":"none"}
 async function importPdfPage(pageNumber){
@@ -325,17 +341,18 @@ async function importPdfPage(pageNumber){
     status(`Reading vector geometry from PDF page ${pageNumber}…`);
     let r=await extractPdfPage(currentPDFDoc,pageNumber);
     if(!r.seg.length)throw Error("No usable vector paths found on this page. It may be a scanned/raster sheet.");
-    segments=r.seg;points=r.pts;selectedWall=null;wallPoints=[];currentDXFText=null;currentDXFName=currentPDFFileName;currentPDFPage=pageNumber;activeProjectName=`${currentPDFFileName.replace(/\.[^.]+$/,'')} — page ${pageNumber}`;projectKind="pdf";drawingScaleFactor=1;scaleVerified=false;scaleLocked=false;scaleP1=null;scaleP2=null;layoutP1=null;layoutP2=null;layoutP3=null;layoutP4=null;layoutP5=null;aimedX=0;updateDrawingScaleStatus();fit();
-    let extra=r.truncated?" • SAFETY LIMIT reached; zoom/detail may be incomplete":"";
-    $("pdfImportInfo").textContent=`PDF page ${pageNumber}: ${r.seg.length.toLocaleString()} vector segments extracted • ${r.images} raster image operation(s) ignored${extra}`;
-    status(`Loaded PDF page ${pageNumber}: ${r.seg.length.toLocaleString()} vector segments. Set CAL 1 / CAL 2 from a known dimension before layout.${extra}`);
+    segments=r.seg;points=r.pts;pdfTextItems=r.text||[];pdfTextVisible=$("showPdfText")?.checked!==false;selectedWall=null;wallPoints=[];currentDXFText=null;currentDXFName=currentPDFFileName;currentPDFPage=pageNumber;activeProjectName=`${currentPDFFileName.replace(/\.[^.]+$/,'')} — page ${pageNumber}`;projectKind="pdf";drawingScaleFactor=1;scaleVerified=false;scaleLocked=false;scaleP1=null;scaleP2=null;layoutP1=null;layoutP2=null;layoutP3=null;layoutP4=null;layoutP5=null;aimedX=0;updateDrawingScaleStatus();fit();
+    let extra=r.truncated?" • VECTOR SAFETY LIMIT reached; zoom/detail may be incomplete":"";
+    if(r.textTruncated)extra+=" • TEXT SAFETY LIMIT reached";
+    $("pdfImportInfo").textContent=`PDF page ${pageNumber}: ${r.seg.length.toLocaleString()} vector segments • ${pdfTextItems.length.toLocaleString()} text item(s) • ${r.images} raster image operation(s) ignored${extra}`;
+    status(`Loaded PDF page ${pageNumber}: ${r.seg.length.toLocaleString()} vector segments + ${pdfTextItems.length.toLocaleString()} text item(s). Use a printed dimension for CAL 1 / CAL 2 before layout.${extra}`);
     await saveProject(false);
   }catch(err){status("PDF import error: "+err.message);$("pdfImportInfo").textContent="PDF import failed: "+err.message}
 }
-function captureProject(){let values={};for(let id of stateIds)values[id]=$(id).value;values.stationSnap=$("stationSnap").checked;let defaultName=currentDXFName?currentDXFName.replace(/\.[^.]+$/," ").trim():`Project ${slotNumber(activeProjectKey)}`;return{version:6,projectName:activeProjectName||defaultName,lightDrawing,virtualShift,drawingScaleFactor,scaleVerified,scaleLocked,scaleP1,scaleP2,layoutP1,layoutP2,layoutP3,layoutP4,layoutP5,kind:projectKind,dxfText:currentDXFText,dxfName:currentDXFName,pdfPage:currentPDFPage,pdfGeometry:projectKind==="pdf"?packPdfGeometry():null,values,view:{scale,ox,oy},selectedWall:selectedWall?{a:selectedWall.a,b:selectedWall.b}:null,wallIndex,savedAt:new Date().toISOString()}}
+function captureProject(){let values={};for(let id of stateIds)values[id]=$(id).value;values.stationSnap=$("stationSnap").checked;let defaultName=currentDXFName?currentDXFName.replace(/\.[^.]+$/," ").trim():`Project ${slotNumber(activeProjectKey)}`;return{version:7,projectName:activeProjectName||defaultName,lightDrawing,virtualShift,drawingScaleFactor,scaleVerified,scaleLocked,scaleP1,scaleP2,layoutP1,layoutP2,layoutP3,layoutP4,layoutP5,kind:projectKind,dxfText:currentDXFText,dxfName:currentDXFName,pdfPage:currentPDFPage,pdfGeometry:projectKind==="pdf"?packPdfGeometry():null,pdfText:projectKind==="pdf"?pdfTextItems:null,pdfTextVisible,values,view:{scale,ox,oy},selectedWall:selectedWall?{a:selectedWall.a,b:selectedWall.b}:null,wallIndex,savedAt:new Date().toISOString()}}
 async function saveProject(show=false){if(restoring)return;try{let state=captureProject();activeProjectName=state.projectName;await idbPut(state);await idbPutAt(ACTIVE_SLOT_KEY,activeProjectKey);await refreshProjectSelect();$("saveState").textContent=`Project ${slotNumber(activeProjectKey)} saved locally • `+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});if(show)status(`Project ${slotNumber(activeProjectKey)} saved locally on this device.`)}catch(err){$("saveState").textContent="Local save failed: "+err.message;if(show)status("Could not save project locally: "+err.message)}}
 function scheduleSave(){if(restoring)return;clearTimeout(saveTimer);saveTimer=setTimeout(()=>saveProject(false),350)}
-async function restoreProject(saved){restoring=true;try{activeProjectName=saved.projectName||saved.dxfName||`Project ${slotNumber(activeProjectKey)}`;lightDrawing=!!saved.lightDrawing;applyDrawingTheme(false);virtualShift=!!saved.virtualShift;physicalShift=false;updateShiftState(false);drawingScaleFactor=Number(saved.drawingScaleFactor)||1;scaleVerified=!!saved.scaleVerified;scaleLocked=!!saved.scaleLocked;scaleP1=saved.scaleP1||null;scaleP2=saved.scaleP2||null;layoutP1=saved.layoutP1||null;layoutP2=saved.layoutP2||null;layoutP3=saved.layoutP3||null;layoutP4=saved.layoutP4||null;layoutP5=saved.layoutP5||null;if(saved.values)for(let [id,v] of Object.entries(saved.values))if($(id)){if(id==="stationSnap")$(id).checked=!!v;else $(id).value=v;}projectKind=saved.kind||"blank";currentDXFText=saved.dxfText||null;currentDXFName=saved.dxfName||"";currentPDFDoc=null;currentPDFFileName=projectKind==="pdf"?currentDXFName:"";currentPDFPage=Number(saved.pdfPage)||0;currentPDFPages=0;showPdfPageControls(false);if(projectKind==="dxf"&&currentDXFText){let r=parseDXF(currentDXFText,num("units")*drawingScaleFactor);segments=r.seg;points=r.pts}else if(projectKind==="pdf"&&saved.pdfGeometry){let r=unpackPdfGeometry(saved.pdfGeometry);segments=r.seg;points=r.pts}else if(projectKind==="blank"){segments=[];points=[]}else{segments=[];points=[];projectKind="blank"}selectedWall=saved.selectedWall||null;wallPoints=[];wallIndex=0;if(selectedWall){let wanted=Math.max(0,Number(saved.wallIndex)||0);makeWall();wallIndex=Math.min(wanted,wallPoints.length-1);if(wallPoints.length)goWall()}if(saved.view&&Number.isFinite(saved.view.scale)&&saved.view.scale>0){scale=saved.view.scale;ox=Number(saved.view.ox)||0;oy=Number(saved.view.oy)||0}else fit();draw();updateDrawingScaleStatus();$("saveState").textContent=`Project ${slotNumber(activeProjectKey)} open • ${activeProjectName}`;status(`Opened Project ${slotNumber(activeProjectKey)} — ${activeProjectName}.`)}finally{restoring=false}}
+async function restoreProject(saved){restoring=true;try{activeProjectName=saved.projectName||saved.dxfName||`Project ${slotNumber(activeProjectKey)}`;lightDrawing=!!saved.lightDrawing;applyDrawingTheme(false);virtualShift=!!saved.virtualShift;physicalShift=false;updateShiftState(false);drawingScaleFactor=Number(saved.drawingScaleFactor)||1;scaleVerified=!!saved.scaleVerified;scaleLocked=!!saved.scaleLocked;scaleP1=saved.scaleP1||null;scaleP2=saved.scaleP2||null;layoutP1=saved.layoutP1||null;layoutP2=saved.layoutP2||null;layoutP3=saved.layoutP3||null;layoutP4=saved.layoutP4||null;layoutP5=saved.layoutP5||null;if(saved.values)for(let [id,v] of Object.entries(saved.values))if($(id)){if(id==="stationSnap")$(id).checked=!!v;else $(id).value=v;}projectKind=saved.kind||"blank";currentDXFText=saved.dxfText||null;currentDXFName=saved.dxfName||"";currentPDFDoc=null;currentPDFFileName=projectKind==="pdf"?currentDXFName:"";currentPDFPage=Number(saved.pdfPage)||0;currentPDFPages=0;pdfTextItems=Array.isArray(saved.pdfText)?saved.pdfText:[];pdfTextVisible=saved.pdfTextVisible!==false;if($("showPdfText"))$("showPdfText").checked=pdfTextVisible;showPdfPageControls(false);if(projectKind==="dxf"&&currentDXFText){let r=parseDXF(currentDXFText,num("units")*drawingScaleFactor);segments=r.seg;points=r.pts;pdfTextItems=[]}else if(projectKind==="pdf"&&saved.pdfGeometry){let r=unpackPdfGeometry(saved.pdfGeometry);segments=r.seg;points=r.pts}else if(projectKind==="blank"){segments=[];points=[];pdfTextItems=[]}else{segments=[];points=[];pdfTextItems=[];projectKind="blank"}selectedWall=saved.selectedWall||null;wallPoints=[];wallIndex=0;if(selectedWall){let wanted=Math.max(0,Number(saved.wallIndex)||0);makeWall();wallIndex=Math.min(wanted,wallPoints.length-1);if(wallPoints.length)goWall()}if(saved.view&&Number.isFinite(saved.view.scale)&&saved.view.scale>0){scale=saved.view.scale;ox=Number(saved.view.ox)||0;oy=Number(saved.view.oy)||0}else fit();draw();updateDrawingScaleStatus();$("saveState").textContent=`Project ${slotNumber(activeProjectKey)} open • ${activeProjectName}`;status(`Opened Project ${slotNumber(activeProjectKey)} — ${activeProjectName}.`)}finally{restoring=false}}
 
 function status(s){$("status").textContent=s}
 function clearActiveButtons(){["scalePoint1","scalePoint2","layoutPoint1","layoutPoint2","layoutPoint3","layoutPoint4","layoutPoint5","placeA","placeB","wallMode"].forEach(id=>$(id)?.classList.remove("active"))}
@@ -374,7 +391,7 @@ function updateTargetPair(){
   $("layoutDimension45").textContent=(layoutP4&&layoutP5)?ftIn(Math.hypot(layoutP5.x-layoutP4.x,layoutP5.y-layoutP4.y)):"—";
   $("targetPairStatus").textContent=(layoutP1&&layoutP2)?`X1 ↔ X2 = ${ftIn(Math.hypot(layoutP2.x-layoutP1.x,layoutP2.y-layoutP1.y))}${target?" • tape distances ready for X"+aimedX:""}`:(target?"Tape distances ready for X"+aimedX:"Set the layout points you need.");
 }
-function rescaleProject(ratio){if(!Number.isFinite(ratio)||ratio<=0)throw Error("Invalid correction");for(let segment of segments){segment.a.x*=ratio;segment.a.y*=ratio;segment.b.x*=ratio;segment.b.y*=ratio}for(let p of points){p.x*=ratio;p.y*=ratio}for(let id of ["ax","ay","bx","by","tx","ty","spacing","snap","measuredAB","baselineTol"]){if($(id).value.trim()!=="")set(id,num(id)*ratio)}if(selectedWall){selectedWall.a.x*=ratio;selectedWall.a.y*=ratio;selectedWall.b.x*=ratio;selectedWall.b.y*=ratio}if(scaleP1){scaleP1.x*=ratio;scaleP1.y*=ratio}if(scaleP2){scaleP2.x*=ratio;scaleP2.y*=ratio}if(layoutP1){layoutP1.x*=ratio;layoutP1.y*=ratio}if(layoutP2){layoutP2.x*=ratio;layoutP2.y*=ratio}if(layoutP3){layoutP3.x*=ratio;layoutP3.y*=ratio}if(layoutP4){layoutP4.x*=ratio;layoutP4.y*=ratio}if(layoutP5){layoutP5.x*=ratio;layoutP5.y*=ratio}drawingScaleFactor*=ratio;if(selectedWall){let old=wallIndex;makeWall();wallIndex=Math.min(old,wallPoints.length-1);if(wallPoints.length)goWall()}fit();updateDrawingScaleStatus();scheduleSave()}
+function rescaleProject(ratio){if(!Number.isFinite(ratio)||ratio<=0)throw Error("Invalid correction");for(let segment of segments){segment.a.x*=ratio;segment.a.y*=ratio;segment.b.x*=ratio;segment.b.y*=ratio}for(let p of points){p.x*=ratio;p.y*=ratio}for(let t of pdfTextItems){t.x*=ratio;t.y*=ratio;t.size*=ratio;t.width*=ratio;t.height*=ratio}for(let id of ["ax","ay","bx","by","tx","ty","spacing","snap","measuredAB","baselineTol"]){if($(id).value.trim()!=="")set(id,num(id)*ratio)}if(selectedWall){selectedWall.a.x*=ratio;selectedWall.a.y*=ratio;selectedWall.b.x*=ratio;selectedWall.b.y*=ratio}if(scaleP1){scaleP1.x*=ratio;scaleP1.y*=ratio}if(scaleP2){scaleP2.x*=ratio;scaleP2.y*=ratio}if(layoutP1){layoutP1.x*=ratio;layoutP1.y*=ratio}if(layoutP2){layoutP2.x*=ratio;layoutP2.y*=ratio}if(layoutP3){layoutP3.x*=ratio;layoutP3.y*=ratio}if(layoutP4){layoutP4.x*=ratio;layoutP4.y*=ratio}if(layoutP5){layoutP5.x*=ratio;layoutP5.y*=ratio}drawingScaleFactor*=ratio;if(selectedWall){let old=wallIndex;makeWall();wallIndex=Math.min(old,wallPoints.length-1);if(wallPoints.length)goWall()}fit();updateDrawingScaleStatus();scheduleSave()}
 
 function size(){let r=cv.getBoundingClientRect(),d=Math.min(window.devicePixelRatio||1,1.5);cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);ctx.setTransform(d,0,0,d,0,0);draw()}
 function fit(){let minx=Infinity,maxx=-Infinity,miny=Infinity,maxy=-Infinity;function add(p){if(!p)return;minx=Math.min(minx,p.x);maxx=Math.max(maxx,p.x);miny=Math.min(miny,p.y);maxy=Math.max(maxy,p.y)}[A(),B(),T()].forEach(add);for(let s of segments){add(s.a);add(s.b)}for(let p of points)add(p);let w=cv.clientWidth,h=cv.clientHeight,pad=48;scale=Math.max(.01,Math.min((w-2*pad)/Math.max(maxx-minx,5),(h-2*pad)/Math.max(maxy-miny,5)));ox=w/2-(minx+maxx)/2*scale;oy=h/2+(miny+maxy)/2*scale;draw();scheduleSave()}
@@ -412,6 +429,27 @@ function drawDXFGeometry(loX,hiX,loY,hiY){
   if(visiblePointScratch.length){ctx.save();ctx.fillStyle=pal.point;ctx.beginPath();for(let k=0;k<visiblePointScratch.length;k+=pointStep){let p=screen(visiblePointScratch[Math.floor(k)]);ctx.moveTo(p.x+2.2,p.y);ctx.arc(p.x,p.y,2.2,0,2*Math.PI)}ctx.fill();ctx.restore()}
   return {visible:visibleSegmentScratch.length,drawn};
 }
+function drawPdfText(loX,hiX,loY,hiY){
+  if(projectKind!=="pdf"||!pdfTextVisible||!pdfTextItems.length)return 0;
+  const pal=viewerPalette();
+  let drawn=0;
+  ctx.save();ctx.fillStyle=pal.dxf;ctx.textBaseline="alphabetic";ctx.textAlign="left";
+  for(const t of pdfTextItems){
+    if(!t||!t.str||t.x<loX-10||t.x>hiX+10||t.y<loY-10||t.y>hiY+10)continue;
+    const px=Math.abs((Number(t.size)||1)*scale);
+    if(px<3.5)continue;
+    const p=screen(t);
+    const fontPx=Math.max(4,Math.min(180,px));
+    ctx.save();ctx.translate(p.x,p.y);ctx.rotate(-(Number(t.angle)||0));
+    ctx.font=`${fontPx}px Arial, Helvetica, sans-serif`;
+    let sx=1;
+    const desired=Math.abs((Number(t.width)||0)*scale);
+    if(desired>1){const measured=ctx.measureText(t.str).width;if(measured>0)sx=Math.max(.35,Math.min(3.5,desired/measured))}
+    if(Math.abs(sx-1)>.03)ctx.scale(sx,1);
+    ctx.fillText(t.str,0,0);ctx.restore();drawn++;
+  }
+  ctx.restore();return drawn;
+}
 function calibration(){
 let a=A(),b=B(),baseline=Math.hypot(b.x-a.x,b.y-a.y),entry=$("measuredAB").value.trim(),measured=num("measuredAB"),tol=num("baselineTol");
 $("baselineCheck").textContent=!entry?"Drawing A–B: "+ftIn(baseline)+" • Enter tape-measured A–B to compare.":(!Number.isFinite(measured)||measured<=0||!Number.isFinite(tol)||tol<0?"Enter a positive measured baseline and nonnegative tolerance.":"Drawing A–B: "+ftIn(baseline)+" • Measured: "+ftIn(measured)+" • Difference: "+ftIn(Math.abs(baseline-measured))+" • "+(Math.abs(baseline-measured)<=tol?"WITHIN entered tolerance":"OUTSIDE tolerance — check DXF units and station locations"));
@@ -422,6 +460,7 @@ if((x1-x0)/5<300&&(y1-y0)/5<300){for(let x=x0;x<=x1;x+=5)line({x,y:y0},{x,y:y1},
 line({x:x0,y:0},{x:x1,y:0},pal.axis);line({x:0,y:y0},{x:0,y:y1},pal.axis);
 let loX=world(0,0).x,hiX=world(w,0).x,loY=world(0,h).y,hiY=world(0,0).y;
 drawDXFGeometry(loX,hiX,loY,hiY);
+drawPdfText(loX,hiX,loY,hiY);
 if(selectedWall){line(selectedWall.a,selectedWall.b,"#55ef9b",3);wallPoints.forEach((p,i)=>mark(p,String(i+1),i===wallIndex?"#ff6687":"#55ef9b"))}
 if(scaleP1)mark(scaleP1,"CAL1","#ffe66d");if(scaleP2){line(scaleP1,scaleP2,"#ffe66d",1.8,[6,5]);mark(scaleP2,"CAL2","#ffe66d");let aa=screen(scaleP1),bb=screen(scaleP2),mx=(aa.x+bb.x)/2,my=(aa.y+bb.y)/2,label="CAL "+ftIn(Math.hypot(scaleP2.x-scaleP1.x,scaleP2.y-scaleP1.y));ctx.save();ctx.font="bold 13px system-ui";let tw=ctx.measureText(label).width;ctx.fillStyle=pal.bg;ctx.fillRect(mx-tw/2-6,my-19,tw+12,24);ctx.fillStyle="#ffe66d";ctx.textAlign="center";ctx.fillText(label,mx,my-2);ctx.restore()}
 if(layoutP1)mark(layoutP1,"X1","#ff6687");
@@ -582,7 +621,7 @@ $("previous").onclick=()=>{if(wallIndex>0){wallIndex--;goWall();scheduleSave()}}
 $("reverse").onclick=()=>{if(selectedWall){selectedWall={a:selectedWall.b,b:selectedWall.a};makeWall();scheduleSave()}};
 $("spacing").onchange=()=>{if(selectedWall)makeWall();scheduleSave()};
 $("center").onclick=fit;
-function loadBlank(doSave=true,preserveName=true){segments=[];points=[];selectedWall=null;wallPoints=[];currentDXFText=null;currentDXFName="";currentPDFDoc=null;currentPDFPage=0;currentPDFPages=0;currentPDFFileName="";showPdfPageControls(false);if(!preserveName)activeProjectName="";projectKind="blank";drawingScaleFactor=1;scaleVerified=false;scaleLocked=false;scaleP1=null;scaleP2=null;layoutP1=null;layoutP2=null;layoutP3=null;layoutP4=null;layoutP5=null;aimedX=0;updateDrawingScaleStatus();fit();if(doSave)scheduleSave()}
+function loadBlank(doSave=true,preserveName=true){segments=[];points=[];pdfTextItems=[];selectedWall=null;wallPoints=[];currentDXFText=null;currentDXFName="";currentPDFDoc=null;currentPDFPage=0;currentPDFPages=0;currentPDFFileName="";showPdfPageControls(false);if(!preserveName)activeProjectName="";projectKind="blank";drawingScaleFactor=1;scaleVerified=false;scaleLocked=false;scaleP1=null;scaleP2=null;layoutP1=null;layoutP2=null;layoutP3=null;layoutP4=null;layoutP5=null;aimedX=0;updateDrawingScaleStatus();fit();if(doSave)scheduleSave()}
 $("clear").onclick=()=>{loadBlank(true,true);status("Drawing cleared in the active project.")};
 function loadDemo(doSave=true){segments=[[[0,0],[40,0]],[[40,0],[40,30]],[[40,30],[0,30]],[[0,30],[0,0]],[[5,5],[35,5]],[[35,5],[35,25]],[[35,25],[5,25]],[[5,25],[5,5]],[[18,5],[18,25]],[[22,5],[22,25]]].map(([a,b])=>({a:{x:a[0],y:a[1]},b:{x:b[0],y:b[1]}}));points=[];selectedWall=null;wallPoints=[];currentDXFText=null;currentDXFName="";projectKind="demo";drawingScaleFactor=1;scaleVerified=false;scaleLocked=false;scaleP1=null;scaleP2=null;layoutP1=null;layoutP2=null;layoutP3=null;layoutP4=null;layoutP5=null;aimedX=0;updateDrawingScaleStatus();status("Demo loaded: 40 × 30 ft outline and interior walls.");fit();if(doSave)scheduleSave()}
 $("saveNow").onclick=()=>saveProject(true);
@@ -597,6 +636,7 @@ else if(type==="LWPOLYLINE"){let verts=[],x=null;for(let [k,v] of fields){if(k==
 else ignored++}
 let type=null,fields=[],section="";for(let i=0;i<pairs.length;i++){let [k,v]=pairs[i];if(k==="0"&&v==="SECTION"){section=pairs[i+1]?.[1]==="2"?pairs[i+1]?.[1]:"";continue}if(k==="2"&&pairs[i-1]?.[1]==="SECTION"){inEntities=v==="ENTITIES";continue}if(k==="0"&&v==="ENDSEC"){if(type&&inEntities)entity(type,fields);type=null;fields=[];inEntities=false;continue}if(!inEntities)continue;if(k==="0"){if(type)entity(type,fields);type=v;fields=[]}else if(type)fields.push([k,v])}
 if(type&&inEntities)entity(type,fields);return{seg,pts,ignored}}
+$("showPdfText")?.addEventListener("change",()=>{pdfTextVisible=$("showPdfText").checked;draw();scheduleSave();status(pdfTextVisible?"PDF text / dimensions shown.":"PDF text / dimensions hidden.")});
 $("loadPdfPage").addEventListener("click",()=>importPdfPage(Number($("pdfPage").value)||1));
 $("file").addEventListener("change",async e=>{
   let f=e.target.files[0];if(!f)return;
@@ -613,7 +653,7 @@ $("file").addEventListener("change",async e=>{
     return;
   }
   showPdfPageControls(false);currentPDFDoc=null;currentPDFPage=0;currentPDFPages=0;currentPDFFileName="";
-  try{let src=await f.text(),r=parseDXF(src,num("units"));if(!r.seg.length&&!r.pts.length)throw Error("No supported entities found. Export an ASCII DXF with LINE / LWPOLYLINE / POINT entities.");segments=r.seg;points=r.pts;selectedWall=null;wallPoints=[];currentDXFText=src;currentDXFName=f.name;activeProjectName=f.name.replace(/\.[^.]+$/," ").trim();projectKind="dxf";drawingScaleFactor=1;scaleVerified=false;scaleLocked=false;scaleP1=null;scaleP2=null;layoutP1=null;layoutP2=null;layoutP3=null;layoutP4=null;layoutP5=null;aimedX=0;updateDrawingScaleStatus();status(`Loaded ${f.name}: ${segments.length} segments, ${points.length} points; ${r.ignored} unsupported entities skipped.`);fit();await saveProject(false)}catch(err){status("DXF error: "+err.message)}
+  try{let src=await f.text(),r=parseDXF(src,num("units"));if(!r.seg.length&&!r.pts.length)throw Error("No supported entities found. Export an ASCII DXF with LINE / LWPOLYLINE / POINT entities.");segments=r.seg;points=r.pts;pdfTextItems=[];selectedWall=null;wallPoints=[];currentDXFText=src;currentDXFName=f.name;activeProjectName=f.name.replace(/\.[^.]+$/," ").trim();projectKind="dxf";drawingScaleFactor=1;scaleVerified=false;scaleLocked=false;scaleP1=null;scaleP2=null;layoutP1=null;layoutP2=null;layoutP3=null;layoutP4=null;layoutP5=null;aimedX=0;updateDrawingScaleStatus();status(`Loaded ${f.name}: ${segments.length} segments, ${points.length} points; ${r.ignored} unsupported entities skipped.`);fit();await saveProject(false)}catch(err){status("DXF error: "+err.message)}
 });
 updateShiftState(false);
 applyDrawingTheme(false);

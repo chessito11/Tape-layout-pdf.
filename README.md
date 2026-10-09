@@ -1,11 +1,8 @@
-# ATLAS Tape Layout PDF Lab — V29
+# ATLAS Tape Layout PDF Lab — V30
 
-Experimental branch for direct PDF import.
+Experimental PDF branch for ATLAS Tape Layout.
 
-Keep the stable ATLAS Tape Layout repository untouched.
+V30 adds a visible PDF text/dimension layer on top of V29 direct vector PDF import.
+PDF text is display-only; ATLAS snapping and layout still use extracted vector geometry.
 
-Upload these files to the repository root:
-- index.html
-- manifest.webmanifest
-
-GitHub Pages can then serve the experiment from the main branch/root.
+Stable field repo remains separate and untouched.
